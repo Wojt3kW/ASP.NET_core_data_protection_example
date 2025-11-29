@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "data_protection_with_EF": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "data_protection_with_EF": "StartDebugging"
+      }
+    }
+  }
+}

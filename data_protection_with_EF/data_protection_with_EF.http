@@ -1,0 +1,244 @@
+@data_protection_with_EF_HostAddress = http://localhost:5012
+
+### ==================== GET Operations ====================
+
+### Get all data sources
+GET {{data_protection_with_EF_HostAddress}}/api/datasources
+Accept: application/json
+
+### Get data source by ID
+GET {{data_protection_with_EF_HostAddress}}/api/datasources/1
+Accept: application/json
+
+### Get data sources by type (url, file, ftp, database, azureblob, s3)
+GET {{data_protection_with_EF_HostAddress}}/api/datasources/type/url
+Accept: application/json
+
+### ==================== URL Data Source ====================
+
+### Create URL data source
+POST {{data_protection_with_EF_HostAddress}}/api/datasources/url
+Content-Type: application/json
+
+{
+  "name": "Example REST API",
+  "description": "External API for data retrieval",
+  "isEnabled": true,
+  "url": "https://api.example.com/data",
+  "httpMethod": "GET",
+  "headers": "{\"Accept\": \"application/json\"}",
+  "authType": "Bearer",
+  "bearerToken": "your-token-here",
+  "timeoutSeconds": 30
+}
+
+### Update URL data source
+PUT {{data_protection_with_EF_HostAddress}}/api/datasources/url/1
+Content-Type: application/json
+
+{
+  "name": "Updated REST API",
+  "description": "Updated description",
+  "isEnabled": true,
+  "url": "https://api.example.com/v2/data",
+  "httpMethod": "POST",
+  "authType": "ApiKey",
+  "apiKey": "your-api-key",
+  "timeoutSeconds": 60
+}
+
+### ==================== File Data Source ====================
+
+### Create File data source
+POST {{data_protection_with_EF_HostAddress}}/api/datasources/file
+Content-Type: application/json
+
+{
+  "name": "Local JSON Config",
+  "description": "Configuration file",
+  "isEnabled": true,
+  "filePath": "C:/data/config.json",
+  "fileType": "JSON",
+  "encoding": "UTF-8"
+}
+
+### Update File data source
+PUT {{data_protection_with_EF_HostAddress}}/api/datasources/file/2
+Content-Type: application/json
+
+{
+  "name": "Updated CSV File",
+  "description": "CSV data file",
+  "isEnabled": true,
+  "filePath": "C:/data/export.csv",
+  "fileType": "CSV",
+  "encoding": "UTF-8",
+  "delimiter": ";",
+  "hasHeader": true
+}
+
+### ==================== FTP Data Source ====================
+
+### Create FTP data source
+POST {{data_protection_with_EF_HostAddress}}/api/datasources/ftp
+Content-Type: application/json
+
+{
+  "name": "FTP Server",
+  "description": "Company FTP server",
+  "isEnabled": true,
+  "host": "ftp.example.com",
+  "port": 21,
+  "username": "ftpuser",
+  "password": "ftppassword",
+  "remotePath": "/data/exports",
+  "useSftp": false,
+  "usePassiveMode": true
+}
+
+### Create SFTP data source
+POST {{data_protection_with_EF_HostAddress}}/api/datasources/ftp
+Content-Type: application/json
+
+{
+  "name": "SFTP Server",
+  "description": "Secure FTP server",
+  "isEnabled": true,
+  "host": "sftp.example.com",
+  "port": 22,
+  "username": "sftpuser",
+  "remotePath": "/secure/data",
+  "useSftp": true,
+  "privateKeyPath": "C:/keys/id_rsa"
+}
+
+### Update FTP data source
+PUT {{data_protection_with_EF_HostAddress}}/api/datasources/ftp/3
+Content-Type: application/json
+
+{
+  "name": "Updated FTP Server",
+  "description": "Updated FTP configuration",
+  "isEnabled": true,
+  "host": "newftp.example.com",
+  "port": 21,
+  "username": "newuser",
+  "password": "newpassword",
+  "remotePath": "/new/path",
+  "useSftp": false,
+  "usePassiveMode": true
+}
+
+### ==================== Database Data Source ====================
+
+### Create Database data source (SQL Server)
+POST {{data_protection_with_EF_HostAddress}}/api/datasources/database
+Content-Type: application/json
+
+{
+  "name": "SQL Server Production",
+  "description": "Production database",
+  "isEnabled": true,
+  "connectionString": "Server=localhost;Database=ProductionDb;User Id=sa;Password=Password123;TrustServerCertificate=True;",
+  "databaseType": "SqlServer",
+  "schema": "dbo",
+  "query": "SELECT * FROM Customers",
+  "commandTimeoutSeconds": 60
+}
+
+### Create Database data source (PostgreSQL)
+POST {{data_protection_with_EF_HostAddress}}/api/datasources/database
+Content-Type: application/json
+
+{
+  "name": "PostgreSQL Analytics",
+  "description": "Analytics database",
+  "isEnabled": true,
+  "connectionString": "Host=localhost;Database=analytics;Username=postgres;Password=postgres",
+  "databaseType": "PostgreSQL",
+  "schema": "public",
+  "query": "analytics_view"
+}
+
+### Update Database data source
+PUT {{data_protection_with_EF_HostAddress}}/api/datasources/database/4
+Content-Type: application/json
+
+{
+  "name": "Updated SQL Server",
+  "description": "Updated connection",
+  "isEnabled": true,
+  "connectionString": "Server=newserver;Database=NewDb;User Id=sa;Password=NewPassword;TrustServerCertificate=True;",
+  "databaseType": "SqlServer",
+  "schema": "dbo",
+  "query": "SELECT * FROM Orders WHERE Status = 'Active'",
+  "commandTimeoutSeconds": 120
+}
+
+### ==================== Azure Blob Data Source ====================
+
+### Create Azure Blob data source
+POST {{data_protection_with_EF_HostAddress}}/api/datasources/azureblob
+Content-Type: application/json
+
+{
+  "name": "Azure Blob Storage",
+  "description": "Azure storage for backups",
+  "isEnabled": true,
+  "connectionString": "DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=mykey;EndpointSuffix=core.windows.net",
+  "containerName": "data-exports",
+  "blobPrefix": "daily/"
+}
+
+### Update Azure Blob data source
+PUT {{data_protection_with_EF_HostAddress}}/api/datasources/azureblob/5
+Content-Type: application/json
+
+{
+  "name": "Updated Azure Blob",
+  "description": "Updated Azure storage",
+  "isEnabled": true,
+  "connectionString": "DefaultEndpointsProtocol=https;AccountName=newaccount;AccountKey=newkey;EndpointSuffix=core.windows.net",
+  "containerName": "new-container",
+  "blobName": "specific-file.json"
+}
+
+### ==================== S3 Data Source ====================
+
+### Create S3 data source
+POST {{data_protection_with_EF_HostAddress}}/api/datasources/s3
+Content-Type: application/json
+
+{
+  "name": "AWS S3 Bucket",
+  "description": "S3 storage for data lake",
+  "isEnabled": true,
+  "bucketName": "my-data-bucket",
+  "accessKey": "AKIAIOSFODNN7EXAMPLE",
+  "secretKey": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+  "region": "eu-west-1",
+  "prefix": "raw-data/"
+}
+
+### Update S3 data source
+PUT {{data_protection_with_EF_HostAddress}}/api/datasources/s3/6
+Content-Type: application/json
+
+{
+  "name": "Updated S3 Bucket",
+  "description": "Updated S3 configuration",
+  "isEnabled": true,
+  "bucketName": "new-bucket",
+  "accessKey": "NEWAKIAIOSFODNN7EXAMPLE",
+  "secretKey": "newSecretKey",
+  "region": "us-east-1",
+  "objectKey": "specific-object.json"
+}
+
+### ==================== Common Operations ====================
+
+### Toggle data source enabled/disabled
+PATCH {{data_protection_with_EF_HostAddress}}/api/datasources/1/toggle
+
+### Delete data source
+DELETE {{data_protection_with_EF_HostAddress}}/api/datasources/1
