@@ -1,5 +1,7 @@
 using data_protection_common.Services;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,10 +47,15 @@ namespace data_protection_common
         {
             // Configure ASP.NET Core Data Protection with EF Core persistence
             // Keys are rotated every 10 days (default is 90 days, minimum is 7 days)
-            services.AddDataProtection()
-                .SetApplicationName("DataProtectionExample")
-                .SetDefaultKeyLifetime(TimeSpan.FromDays(10))
-                .PersistKeysToDbContext<ApplicationDbContext>();
+services.AddDataProtection()
+    .SetApplicationName("DataProtectionExample")
+    .SetDefaultKeyLifetime(TimeSpan.FromDays(10))
+    .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration
+    {
+        EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
+        ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
+    })
+    .PersistKeysToDbContext<ApplicationDbContext>();
 
             return services;
         }
