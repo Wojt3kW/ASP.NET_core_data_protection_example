@@ -13,27 +13,27 @@ namespace data_protection_common.Services
         Task<IEnumerable<DataSourceDto>> GetByTypeAsync(string sourceType);
 
         // URL Data Source
-        Task<DataSourceDto> CreateUrlAsync(CreateUrlDataSourceDto dto);
+        Task<int> CreateUrlAsync(CreateUrlDataSourceDto dto);
         Task<bool> UpdateUrlAsync(int id, CreateUrlDataSourceDto dto);
 
         // File Data Source
-        Task<DataSourceDto> CreateFileAsync(CreateFileDataSourceDto dto);
+        Task<int> CreateFileAsync(CreateFileDataSourceDto dto);
         Task<bool> UpdateFileAsync(int id, CreateFileDataSourceDto dto);
 
         // FTP Data Source
-        Task<DataSourceDto> CreateFtpAsync(CreateFtpDataSourceDto dto);
+        Task<int> CreateFtpAsync(CreateFtpDataSourceDto dto);
         Task<bool> UpdateFtpAsync(int id, CreateFtpDataSourceDto dto);
 
         // Database Data Source
-        Task<DataSourceDto> CreateDatabaseAsync(CreateDatabaseDataSourceDto dto);
+        Task<int> CreateDatabaseAsync(CreateDatabaseDataSourceDto dto);
         Task<bool> UpdateDatabaseAsync(int id, CreateDatabaseDataSourceDto dto);
 
         // Azure Blob Data Source
-        Task<DataSourceDto> CreateAzureBlobAsync(CreateAzureBlobDataSourceDto dto);
+        Task<int> CreateAzureBlobAsync(CreateAzureBlobDataSourceDto dto);
         Task<bool> UpdateAzureBlobAsync(int id, CreateAzureBlobDataSourceDto dto);
 
         // S3 Data Source
-        Task<DataSourceDto> CreateS3Async(CreateS3DataSourceDto dto);
+        Task<int> CreateS3Async(CreateS3DataSourceDto dto);
         Task<bool> UpdateS3Async(int id, CreateS3DataSourceDto dto);
 
         // Common operations

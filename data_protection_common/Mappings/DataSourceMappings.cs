@@ -9,6 +9,14 @@ namespace data_protection_common.Mappings
     public static class DataSourceMappings
     {
         /// <summary>
+        /// Maps collection of DataSource entities to DTOs
+        /// </summary>
+        public static IEnumerable<DataSourceDto> ToDto(this IEnumerable<DataSource> entities)
+        {
+            return entities.Select(e => e.ToDto());
+        }
+
+        /// <summary>
         /// Maps DataSource entity to appropriate DTO
         /// </summary>
         public static DataSourceDto ToDto(this DataSource entity)
@@ -29,7 +37,11 @@ namespace data_protection_common.Mappings
                     Headers = url.Headers,
                     AuthType = url.AuthType,
                     Username = url.Username,
-                    TimeoutSeconds = url.TimeoutSeconds
+                    TimeoutSeconds = url.TimeoutSeconds,
+                    // Sensitive data
+                    Password = url.Password,
+                    ApiKey = url.ApiKey,
+                    BearerToken = url.BearerToken
                 },
                 FileDataSource file => new FileDataSourceDto
                 {
@@ -60,7 +72,10 @@ namespace data_protection_common.Mappings
                     Username = ftp.Username,
                     RemotePath = ftp.RemotePath,
                     UseSftp = ftp.UseSftp,
-                    UsePassiveMode = ftp.UsePassiveMode
+                    UsePassiveMode = ftp.UsePassiveMode,
+                    // Sensitive data
+                    Password = ftp.Password,
+                    PrivateKeyPath = ftp.PrivateKeyPath
                 },
                 DatabaseDataSource db => new DatabaseDataSourceDto
                 {
@@ -74,7 +89,9 @@ namespace data_protection_common.Mappings
                     DatabaseType = db.DatabaseType,
                     Schema = db.Schema,
                     Query = db.Query,
-                    CommandTimeoutSeconds = db.CommandTimeoutSeconds
+                    CommandTimeoutSeconds = db.CommandTimeoutSeconds,
+                    // Sensitive data
+                    ConnectionString = db.ConnectionString
                 },
                 AzureBlobDataSource azure => new AzureBlobDataSourceDto
                 {
@@ -87,7 +104,9 @@ namespace data_protection_common.Mappings
                     SourceType = "AzureBlob",
                     ContainerName = azure.ContainerName,
                     BlobName = azure.BlobName,
-                    BlobPrefix = azure.BlobPrefix
+                    BlobPrefix = azure.BlobPrefix,
+                    // Sensitive data
+                    ConnectionString = azure.ConnectionString
                 },
                 S3DataSource s3 => new S3DataSourceDto
                 {
@@ -101,7 +120,10 @@ namespace data_protection_common.Mappings
                     BucketName = s3.BucketName,
                     Region = s3.Region,
                     ObjectKey = s3.ObjectKey,
-                    Prefix = s3.Prefix
+                    Prefix = s3.Prefix,
+                    // Sensitive data
+                    AccessKey = s3.AccessKey,
+                    SecretKey = s3.SecretKey
                 },
                 _ => throw new ArgumentException($"Unknown data source type: {entity.GetType().Name}")
             };
@@ -225,7 +247,7 @@ namespace data_protection_common.Mappings
         /// <summary>
         /// Updates UrlDataSource entity from DTO
         /// </summary>
-        public static void UpdateFrom(this UrlDataSource entity, CreateUrlDataSourceDto dto)
+        public static UrlDataSource UpdateFrom(this UrlDataSource entity, CreateUrlDataSourceDto dto)
         {
             entity.Name = dto.Name;
             entity.Description = dto.Description;
@@ -240,12 +262,13 @@ namespace data_protection_common.Mappings
             entity.BearerToken = dto.BearerToken;
             entity.TimeoutSeconds = dto.TimeoutSeconds;
             entity.ModifiedAt = DateTime.UtcNow;
+            return entity;
         }
 
         /// <summary>
         /// Updates FileDataSource entity from DTO
         /// </summary>
-        public static void UpdateFrom(this FileDataSource entity, CreateFileDataSourceDto dto)
+        public static FileDataSource UpdateFrom(this FileDataSource entity, CreateFileDataSourceDto dto)
         {
             entity.Name = dto.Name;
             entity.Description = dto.Description;
@@ -256,12 +279,13 @@ namespace data_protection_common.Mappings
             entity.Delimiter = dto.Delimiter;
             entity.HasHeader = dto.HasHeader;
             entity.ModifiedAt = DateTime.UtcNow;
+            return entity;
         }
 
         /// <summary>
         /// Updates FtpDataSource entity from DTO
         /// </summary>
-        public static void UpdateFrom(this FtpDataSource entity, CreateFtpDataSourceDto dto)
+        public static FtpDataSource UpdateFrom(this FtpDataSource entity, CreateFtpDataSourceDto dto)
         {
             entity.Name = dto.Name;
             entity.Description = dto.Description;
@@ -275,12 +299,13 @@ namespace data_protection_common.Mappings
             entity.UsePassiveMode = dto.UsePassiveMode;
             entity.PrivateKeyPath = dto.PrivateKeyPath;
             entity.ModifiedAt = DateTime.UtcNow;
+            return entity;
         }
 
         /// <summary>
         /// Updates DatabaseDataSource entity from DTO
         /// </summary>
-        public static void UpdateFrom(this DatabaseDataSource entity, CreateDatabaseDataSourceDto dto)
+        public static DatabaseDataSource UpdateFrom(this DatabaseDataSource entity, CreateDatabaseDataSourceDto dto)
         {
             entity.Name = dto.Name;
             entity.Description = dto.Description;
@@ -291,12 +316,13 @@ namespace data_protection_common.Mappings
             entity.Query = dto.Query;
             entity.CommandTimeoutSeconds = dto.CommandTimeoutSeconds;
             entity.ModifiedAt = DateTime.UtcNow;
+            return entity;
         }
 
         /// <summary>
         /// Updates AzureBlobDataSource entity from DTO
         /// </summary>
-        public static void UpdateFrom(this AzureBlobDataSource entity, CreateAzureBlobDataSourceDto dto)
+        public static AzureBlobDataSource UpdateFrom(this AzureBlobDataSource entity, CreateAzureBlobDataSourceDto dto)
         {
             entity.Name = dto.Name;
             entity.Description = dto.Description;
@@ -306,12 +332,13 @@ namespace data_protection_common.Mappings
             entity.BlobName = dto.BlobName;
             entity.BlobPrefix = dto.BlobPrefix;
             entity.ModifiedAt = DateTime.UtcNow;
+            return entity;
         }
 
         /// <summary>
         /// Updates S3DataSource entity from DTO
         /// </summary>
-        public static void UpdateFrom(this S3DataSource entity, CreateS3DataSourceDto dto)
+        public static S3DataSource UpdateFrom(this S3DataSource entity, CreateS3DataSourceDto dto)
         {
             entity.Name = dto.Name;
             entity.Description = dto.Description;
@@ -323,6 +350,7 @@ namespace data_protection_common.Mappings
             entity.ObjectKey = dto.ObjectKey;
             entity.Prefix = dto.Prefix;
             entity.ModifiedAt = DateTime.UtcNow;
+            return entity;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace data_protection_common.Services
     /// <summary>
     /// Cryptography service using AES-256-CBC with PBKDF2 key derivation
     /// </summary>
-    public class CryptographyService : ICryptographyService
+    internal class CryptographyService : ICryptographyService
     {
         // Hardcoded encryption key (in production, use Key Vault)
         // This is a 256-bit key encoded as Base64

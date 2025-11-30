@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "data_protection_with_EF", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "data_protection_common", "data_protection_common\data_protection_common.csproj", "{66BF72D1-0890-4591-AA00-0B9EF58918CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "data_protection_with_EF_tests", "data_protection_with_EF_tests\data_protection_with_EF_tests.csproj", "{E493570A-447B-4F99-B742-9F9CB2786E7B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data_protection_with_EF", "data_protection_with_EF", "{659F07A9-FD76-4C7F-9D70-C629CB512BB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +31,16 @@ Global
 		{66BF72D1-0890-4591-AA00-0B9EF58918CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66BF72D1-0890-4591-AA00-0B9EF58918CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66BF72D1-0890-4591-AA00-0B9EF58918CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E493570A-447B-4F99-B742-9F9CB2786E7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E493570A-447B-4F99-B742-9F9CB2786E7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E493570A-447B-4F99-B742-9F9CB2786E7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E493570A-447B-4F99-B742-9F9CB2786E7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FD3C9D79-1038-4D2A-B190-244A8BE462C0} = {659F07A9-FD76-4C7F-9D70-C629CB512BB9}
+		{E493570A-447B-4F99-B742-9F9CB2786E7B} = {659F07A9-FD76-4C7F-9D70-C629CB512BB9}
 	EndGlobalSection
 EndGlobal

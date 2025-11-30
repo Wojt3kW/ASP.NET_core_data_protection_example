@@ -12,8 +12,10 @@ namespace data_protection_with_EF
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            
-            builder.Services.AddApplicationDbContext(connectionString!);
+
+            builder.Services.AddApplicationDbContext(connectionString!)
+                .RegisterServices()
+                .AddDataProtectionApiWithKeysStoredInDbContext();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

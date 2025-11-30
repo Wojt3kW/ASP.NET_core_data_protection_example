@@ -1,9 +1,10 @@
 using data_protection_common.Entities;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace data_protection_common
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IDataProtectionKeyContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -11,6 +12,11 @@ namespace data_protection_common
         }
 
         public DbSet<DataSource> DataSources { get; set; }
+
+        /// <summary>
+        /// DbSet for storing ASP.NET Core Data Protection keys
+        /// </summary>
+        public DbSet<DataProtectionKey> DataProtectionKeys { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,7 +28,7 @@ namespace data_protection_common
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.Description).HasMaxLength(1000);
-                
+
                 // Discriminator determines the data source type
                 entity.HasDiscriminator<string>("SourceType")
                     .HasValue<UrlDataSource>("Url")
@@ -41,8 +47,8 @@ namespace data_protection_common
                 entity.Property(e => e.Url).HasMaxLength(2048);
                 entity.Property(e => e.HttpMethod).HasMaxLength(10);
                 entity.Property(e => e.AuthType).HasMaxLength(50);
-                entity.Property(e => e.Username).HasMaxLength(255);
-                entity.Property(e => e.Password).HasMaxLength(2048);      // Encrypted - increased from 1024
+                entity.Property(e => e.Username).HasColumnName(nameof(UrlDataSource.Username)).HasMaxLength(255);
+                entity.Property(e => e.Password).HasColumnName(nameof(UrlDataSource.Password)).HasMaxLength(2048);      // Encrypted - increased from 1024
                 entity.Property(e => e.ApiKey).HasMaxLength(2048);        // Encrypted - increased from 1024
                 entity.Property(e => e.BearerToken).HasMaxLength(8000);   // Encrypted - increased from 4000
             });
@@ -62,8 +68,8 @@ namespace data_protection_common
             modelBuilder.Entity<FtpDataSource>(entity =>
             {
                 entity.Property(e => e.Host).HasMaxLength(255);
-                entity.Property(e => e.Username).HasMaxLength(255);
-                entity.Property(e => e.Password).HasMaxLength(2048);      // Encrypted - increased from 1024
+                entity.Property(e => e.Username).HasColumnName(nameof(FtpDataSource.Username)).HasMaxLength(255);
+                entity.Property(e => e.Password).HasColumnName(nameof(FtpDataSource.Password)).HasMaxLength(2048);      // Encrypted - increased from 1024
                 entity.Property(e => e.RemotePath).HasMaxLength(1024);
                 entity.Property(e => e.PrivateKeyPath).HasMaxLength(4096); // Encrypted - increased from 2048
             });
@@ -73,7 +79,7 @@ namespace data_protection_common
             // Encrypted fields need extra space for Base64 encoding (~1.4x original + IV overhead)
             modelBuilder.Entity<DatabaseDataSource>(entity =>
             {
-                entity.Property(e => e.ConnectionString).HasMaxLength(8000); // Encrypted - increased from 4000
+                entity.Property(e => e.ConnectionString).HasColumnName(nameof(DatabaseDataSource.ConnectionString)).HasMaxLength(8000); // Encrypted - increased from 4000
                 entity.Property(e => e.DatabaseType).HasMaxLength(50);
                 entity.Property(e => e.Schema).HasMaxLength(128);
                 entity.Property(e => e.Query).HasMaxLength(4000);
@@ -84,7 +90,7 @@ namespace data_protection_common
             // Encrypted fields need extra space for Base64 encoding (~1.4x original + IV overhead)
             modelBuilder.Entity<AzureBlobDataSource>(entity =>
             {
-                entity.Property(e => e.ConnectionString).HasMaxLength(8000); // Encrypted - increased from 4000
+                entity.Property(e => e.ConnectionString).HasColumnName(nameof(AzureBlobDataSource.ConnectionString)).HasMaxLength(8000); // Encrypted - increased from 4000
                 entity.Property(e => e.ContainerName).HasMaxLength(255);
                 entity.Property(e => e.BlobName).HasMaxLength(1024);
                 entity.Property(e => e.BlobPrefix).HasMaxLength(1024);

@@ -25,6 +25,10 @@ namespace data_protection_common.DTOs
         public string? AuthType { get; set; }
         public string? Username { get; set; }
         public int? TimeoutSeconds { get; set; }
+        // Sensitive data
+        public string? Password { get; set; }
+        public string? ApiKey { get; set; }
+        public string? BearerToken { get; set; }
     }
 
     /// <summary>
@@ -50,6 +54,9 @@ namespace data_protection_common.DTOs
         public string? RemotePath { get; set; }
         public bool UseSftp { get; set; }
         public bool UsePassiveMode { get; set; }
+        // Sensitive data
+        public string? Password { get; set; }
+        public string? PrivateKeyPath { get; set; }
     }
 
     /// <summary>
@@ -61,6 +68,8 @@ namespace data_protection_common.DTOs
         public string? Schema { get; set; }
         public string? Query { get; set; }
         public int? CommandTimeoutSeconds { get; set; }
+        // Sensitive data
+        public string? ConnectionString { get; set; }
     }
 
     /// <summary>
@@ -71,6 +80,8 @@ namespace data_protection_common.DTOs
         public string ContainerName { get; set; } = string.Empty;
         public string? BlobName { get; set; }
         public string? BlobPrefix { get; set; }
+        // Sensitive data
+        public string? ConnectionString { get; set; }
     }
 
     /// <summary>
@@ -82,5 +93,8 @@ namespace data_protection_common.DTOs
         public string? Region { get; set; }
         public string? ObjectKey { get; set; }
         public string? Prefix { get; set; }
+        // Sensitive data
+        public string? AccessKey { get; set; }
+        public string? SecretKey { get; set; }
     }
 }

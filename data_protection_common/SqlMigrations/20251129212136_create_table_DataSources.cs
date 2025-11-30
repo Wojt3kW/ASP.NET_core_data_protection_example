@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace data_protection_common.SqlMigrations
 {
     /// <inheritdoc />
-    public partial class add_table_DataSources : Migration
+    public partial class create_table_DataSources : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,7 +27,6 @@ namespace data_protection_common.SqlMigrations
                     ContainerName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     BlobName = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
                     BlobPrefix = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
-                    DatabaseDataSource_ConnectionString = table.Column<string>(type: "nvarchar(max)", maxLength: 8000, nullable: true),
                     DatabaseType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Schema = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
                     Query = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
@@ -55,8 +54,6 @@ namespace data_protection_common.SqlMigrations
                     HttpMethod = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     Headers = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AuthType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    UrlDataSource_Username = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    UrlDataSource_Password = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
                     ApiKey = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
                     BearerToken = table.Column<string>(type: "nvarchar(max)", maxLength: 8000, nullable: true),
                     TimeoutSeconds = table.Column<int>(type: "int", nullable: true)

@@ -12,8 +12,8 @@ using data_protection_common;
 namespace data_protection_common.SqlMigrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251129203351_add_table_DataSources")]
-    partial class add_table_DataSources
+    [Migration("20251129213123_Add_table_DataProtectionKeys")]
+    partial class Add_table_DataProtectionKeys
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,25 @@ namespace data_protection_common.SqlMigrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FriendlyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Xml")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DataProtectionKeys");
+                });
 
             modelBuilder.Entity("data_protection_common.Entities.DataSource", b =>
                 {
@@ -79,8 +98,10 @@ namespace data_protection_common.SqlMigrations
 
                     b.Property<string>("ConnectionString")
                         .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasMaxLength(8000)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ConnectionString");
 
                     b.Property<string>("ContainerName")
                         .IsRequired()
@@ -99,8 +120,10 @@ namespace data_protection_common.SqlMigrations
 
                     b.Property<string>("ConnectionString")
                         .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasMaxLength(8000)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ConnectionString");
 
                     b.Property<string>("DatabaseType")
                         .HasMaxLength(50)
@@ -113,12 +136,6 @@ namespace data_protection_common.SqlMigrations
                     b.Property<string>("Schema")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
-
-                    b.ToTable("DataSources", t =>
-                        {
-                            t.Property("ConnectionString")
-                                .HasColumnName("DatabaseDataSource_ConnectionString");
-                        });
 
                     b.HasDiscriminator().HasValue("Database");
                 });
@@ -160,8 +177,10 @@ namespace data_protection_common.SqlMigrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Password")
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)");
+                        .HasColumnType("nvarchar(2048)")
+                        .HasColumnName("Password");
 
                     b.Property<int>("Port")
                         .HasColumnType("int");
@@ -181,8 +200,10 @@ namespace data_protection_common.SqlMigrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Username")
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Username");
 
                     b.HasDiscriminator().HasValue("Ftp");
                 });
@@ -243,8 +264,10 @@ namespace data_protection_common.SqlMigrations
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Password")
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)");
+                        .HasColumnType("nvarchar(2048)")
+                        .HasColumnName("Password");
 
                     b.Property<int?>("TimeoutSeconds")
                         .HasColumnType("int");
@@ -255,17 +278,10 @@ namespace data_protection_common.SqlMigrations
                         .HasColumnType("nvarchar(2048)");
 
                     b.Property<string>("Username")
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.ToTable("DataSources", t =>
-                        {
-                            t.Property("Password")
-                                .HasColumnName("UrlDataSource_Password");
-
-                            t.Property("Username")
-                                .HasColumnName("UrlDataSource_Username");
-                        });
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Username");
 
                     b.HasDiscriminator().HasValue("Url");
                 });

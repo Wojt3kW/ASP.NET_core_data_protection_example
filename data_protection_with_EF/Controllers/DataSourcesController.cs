@@ -57,10 +57,10 @@ namespace data_protection_with_EF.Controllers
         /// Create URL data source
         /// </summary>
         [HttpPost("url")]
-        public async Task<ActionResult<DataSourceDto>> CreateUrl([FromBody] CreateUrlDataSourceDto dto)
+        public async Task<ActionResult<int>> CreateUrl([FromBody] CreateUrlDataSourceDto dto)
         {
-            var result = await _dataSourceService.CreateUrlAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            var id = await _dataSourceService.CreateUrlAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id }, id);
         }
 
         /// <summary>
@@ -79,10 +79,10 @@ namespace data_protection_with_EF.Controllers
         /// Create File data source
         /// </summary>
         [HttpPost("file")]
-        public async Task<ActionResult<DataSourceDto>> CreateFile([FromBody] CreateFileDataSourceDto dto)
+        public async Task<ActionResult<int>> CreateFile([FromBody] CreateFileDataSourceDto dto)
         {
-            var result = await _dataSourceService.CreateFileAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            var id = await _dataSourceService.CreateFileAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id }, id);
         }
 
         /// <summary>
@@ -101,10 +101,10 @@ namespace data_protection_with_EF.Controllers
         /// Create FTP data source
         /// </summary>
         [HttpPost("ftp")]
-        public async Task<ActionResult<DataSourceDto>> CreateFtp([FromBody] CreateFtpDataSourceDto dto)
+        public async Task<ActionResult<int>> CreateFtp([FromBody] CreateFtpDataSourceDto dto)
         {
-            var result = await _dataSourceService.CreateFtpAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            var id = await _dataSourceService.CreateFtpAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id }, id);
         }
 
         /// <summary>
@@ -123,10 +123,10 @@ namespace data_protection_with_EF.Controllers
         /// Create Database data source
         /// </summary>
         [HttpPost("database")]
-        public async Task<ActionResult<DataSourceDto>> CreateDatabase([FromBody] CreateDatabaseDataSourceDto dto)
+        public async Task<ActionResult<int>> CreateDatabase([FromBody] CreateDatabaseDataSourceDto dto)
         {
-            var result = await _dataSourceService.CreateDatabaseAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            var id = await _dataSourceService.CreateDatabaseAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id }, id);
         }
 
         /// <summary>
@@ -145,10 +145,10 @@ namespace data_protection_with_EF.Controllers
         /// Create Azure Blob data source
         /// </summary>
         [HttpPost("azureblob")]
-        public async Task<ActionResult<DataSourceDto>> CreateAzureBlob([FromBody] CreateAzureBlobDataSourceDto dto)
+        public async Task<ActionResult<int>> CreateAzureBlob([FromBody] CreateAzureBlobDataSourceDto dto)
         {
-            var result = await _dataSourceService.CreateAzureBlobAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            var id = await _dataSourceService.CreateAzureBlobAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id }, id);
         }
 
         /// <summary>
@@ -167,10 +167,10 @@ namespace data_protection_with_EF.Controllers
         /// Create S3 data source
         /// </summary>
         [HttpPost("s3")]
-        public async Task<ActionResult<DataSourceDto>> CreateS3([FromBody] CreateS3DataSourceDto dto)
+        public async Task<ActionResult<int>> CreateS3([FromBody] CreateS3DataSourceDto dto)
         {
-            var result = await _dataSourceService.CreateS3Async(dto);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            var id = await _dataSourceService.CreateS3Async(dto);
+            return CreatedAtAction(nameof(GetById), new { id }, id);
         }
 
         /// <summary>
